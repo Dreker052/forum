@@ -1,30 +1,32 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <router-view></router-view>
 </template>
-
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+  font-family: "Gothic A1", sans-serif;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
 }
 
-nav {
-  padding: 30px;
+body {
+  background-image: url(./assets/min_space_wo_moon1.png);
+  background-attachment: fixed;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: white;
 }
-
-nav a.router-link-exact-active {
-  color: #42b983;
+.container {
+  border: 3px solid lightblue;
+  border-radius: 10px;
+  height: 98vh;
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
 }
 </style>
