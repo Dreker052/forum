@@ -2,105 +2,34 @@
   <div class="container">
     <button
       v-for="subject in subjects"
-      :key="subject.title"
-      @click="$router.push(`/${subject.title}`)"
+      :key="subject.Title"
+      @click="$router.push(`/${subject.Title}`)"
       class="subjectLink"
     >
-      {{ subject.title }}
+      {{ subject.Title }}
     </button>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "HomeView",
   data() {
     return {
-      subjects: [
-        { title: "programming" },
-        { title: "learning languages" },
-        { title: "anime" },
-        { title: "movies" },
-        { title: "video games" },
-        { title: "books" },
-        { title: "politics" },
-        { title: "series" },
-        { title: "science" },
-        { title: "programming" },
-        { title: "learning languages" },
-        { title: "anime" },
-        { title: "movies" },
-        { title: "video games" },
-        { title: "books" },
-        { title: "politics" },
-        { title: "series" },
-        { title: "science" },
-        { title: "programming" },
-        { title: "learning languages" },
-        { title: "anime" },
-        { title: "movies" },
-        { title: "video games" },
-        { title: "books" },
-        { title: "politics" },
-        { title: "series" },
-        { title: "science" },
-        { title: "programming" },
-        { title: "learning languages" },
-        { title: "anime" },
-        { title: "movies" },
-        { title: "video games" },
-        { title: "books" },
-        { title: "politics" },
-        { title: "series" },
-        { title: "science" },
-        { title: "programming" },
-        { title: "learning languages" },
-        { title: "anime" },
-        { title: "movies" },
-        { title: "video games" },
-        { title: "books" },
-        { title: "politics" },
-        { title: "series" },
-        { title: "science" },
-        { title: "programming" },
-        { title: "learning languages" },
-        { title: "anime" },
-        { title: "movies" },
-        { title: "video games" },
-        { title: "books" },
-        { title: "politics" },
-        { title: "series" },
-        { title: "science" },
-        { title: "programming" },
-        { title: "learning languages" },
-        { title: "anime" },
-        { title: "movies" },
-        { title: "video games" },
-        { title: "books" },
-        { title: "politics" },
-        { title: "series" },
-        { title: "science" },
-        { title: "programming" },
-        { title: "learning languages" },
-        { title: "anime" },
-        { title: "movies" },
-        { title: "video games" },
-        { title: "books" },
-        { title: "politics" },
-        { title: "series" },
-        { title: "science" },
-        { title: "programming" },
-        { title: "learning languages" },
-        { title: "anime" },
-        { title: "movies" },
-        { title: "video games" },
-        { title: "books" },
-        { title: "politics" },
-      ],
+      subjects: [],
     };
   },
 
-  methods: {},
+  methods: {
+    async loadSubjects() {
+      const response = await axios.get("http://localhost:5153/api/subjects");
+      this.subjects = response.data;
+    },
+  },
+  mounted() {
+    this.loadSubjects();
+  },
 };
 </script>
 

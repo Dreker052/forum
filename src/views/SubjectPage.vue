@@ -9,22 +9,36 @@
 <script>
 import postForm from "@/components/postForm.vue";
 import postList from "@/components/postList.vue";
+import axios from "axios";
 export default {
   components: { postForm, postList },
   data() {
     return {
-      posts: [
-        { id: 1, title: "qwe1", body: "zxc1" },
-        { id: 2, title: "qwe2", body: "zxc2" },
-        { id: 3, title: "qwe3", body: "zxc3" },
-      ],
+      posts: [],
     };
   },
 
   methods: {
-    addPost(post) {
+    async addPost(post) {
+      await axios.post("http://localhost:5153/api/posts", {
+        Id: post.id,
+        Title: post.title,
+        Content: post.body,
+        SubjectTitle: this.$route.params.title,
+      });
       this.posts.push(post);
+      this.loadPosts();
     },
+    async loadPosts() {
+      const response = await axios.get(
+        `http://localhost:5153/api/posts/${this.$route.params.title}`
+      );
+      this.posts = response.data;
+    },
+  },
+
+  mounted() {
+    this.loadPosts();
   },
 };
 </script>

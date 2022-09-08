@@ -1,13 +1,13 @@
 <template>
   <div class="list">
     <div
-      @click="$router.push(`/${$route.params.title}/${post.id}`)"
+      @click="$router.push(`/${$route.params.title}/${post.Id}`)"
       class="postList"
       v-for="post in posts"
-      :key="post.id"
+      :key="post.Id"
     >
-      <div><strong>Title: </strong>{{ post.title }}</div>
-      <div><strong>Body: </strong>{{ post.body }}</div>
+      <div><strong>Title: </strong>{{ post.Title }}</div>
+      <div><strong>Body: </strong>{{ post.Content }}</div>
     </div>
   </div>
 </template>
