@@ -3,8 +3,8 @@
   <div class="container">
     <div class="cupPostContainer">
       <div class="curPost">
-        <div class="curPostTitle"></div>
-        <div class="curPostBody"></div>
+        <div class="curPostTitle">{{ Title }}</div>
+        <div class="curPostBody">{{ Content }}</div>
       </div>
     </div>
     <post-list :posts="replies" />
@@ -19,11 +19,9 @@ export default {
   components: { PostList, ReplyForm },
   data() {
     return {
-      replies: [
-        { id: 1, Title: "asd1", Content: "fgh1" },
-        { id: 2, Title: "asd2", Content: "fgh2" },
-        { id: 3, Title: "asd3", Content: "fgh3" },
-      ],
+      Content: "",
+      Title: "",
+      replies: [],
     };
   },
   methods: {
@@ -31,16 +29,19 @@ export default {
       const response = await axios.get(
         `http://localhost:5153/api/posts/${this.$route.params.id}`
       );
-      // response.Title = this.Title;
-      // response.Content = this.Content;
-      console.log(response);
+      this.Title = response.data.Title;
+      this.Content = response.data.Content;
     },
-    // async loadReplies() {
-    //   const response = await axios.get(
-    //     `http://localhost:5153/api/replies/${this.$route.params.id}`
-    //   );
-    //   this.repies = response.data;
-    // },
+    async loadReplies() {
+      const response = await axios.get(
+        `http://localhost:5153/api/replies/${this.$route.params.id}`
+      );
+      this.replies = response.data;
+    },
+  },
+  mounted() {
+    this.loadCurPost();
+    this.loadReplies();
   },
 };
 </script>
