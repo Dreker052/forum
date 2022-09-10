@@ -1,42 +1,53 @@
 <template>
-  <reply-form />
   <div class="container">
     <div class="cupPostContainer">
       <div class="curPost">
-        <div class="curPostTitle">{{ Title }}</div>
-        <div class="curPostBody">{{ Content }}</div>
+        <div class="curPostTitle">{{ postTitle }}</div>
+        <div class="curPostBody">{{ postContent }}</div>
       </div>
     </div>
-    <post-list :posts="replies" />
+    <reply-form @add="addReply" />
+    <div class="replyList">
+      <reply-item v-for="reply in replies" :key="reply.id" :reply="reply" />
+    </div>
   </div>
 </template>
 
 <script>
-import PostList from "@/components/postList.vue";
 import ReplyForm from "@/components/replyForm.vue";
+import ReplyItem from "@/components/replyItem.vue";
 import axios from "axios";
 export default {
-  components: { PostList, ReplyForm },
+  components: { ReplyForm, ReplyItem },
   data() {
     return {
-      Content: "",
-      Title: "",
+      postContent: "",
+      postTitle: "",
       replies: [],
     };
   },
   methods: {
     async loadCurPost() {
       const response = await axios.get(
-        `http://localhost:5153/api/posts/${this.$route.params.id}`
+        `http://localhost:5153/api/posts/curpost/${this.$route.params.id}`
       );
-      this.Title = response.data.Title;
-      this.Content = response.data.Content;
+      this.postTitle = response.data.Title;
+      this.postContent = response.data.Content;
     },
     async loadReplies() {
       const response = await axios.get(
         `http://localhost:5153/api/replies/${this.$route.params.id}`
       );
       this.replies = response.data;
+    },
+    async addReply(reply) {
+      await axios.post("http://localhost:5153/api/replies", {
+        Id: reply.id,
+        Content: reply.Content,
+        PostId: this.$route.params.id,
+      });
+      this.replies.push(reply);
+      this.loadReplies();
     },
   },
   mounted() {
@@ -71,5 +82,12 @@ export default {
 }
 .container {
   border: none;
+}
+.replyList {
+  width: 100%;
+  border: 3px solid lightblue;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 10px 5px 5px lightgray;
 }
 </style>

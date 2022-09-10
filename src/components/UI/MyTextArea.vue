@@ -31,5 +31,6 @@ textarea {
   padding: 10px;
   box-sizing: border-box;
   margin-bottom: 5px;
+  resize: none;
 }
 </style>
