@@ -11,16 +11,19 @@
       <reply-item v-for="reply in replies" :key="reply.id" :reply="reply" />
     </div>
   </div>
+  <message-popup v-if="message != ''">{{ message }}</message-popup>
 </template>
 
 <script>
 import ReplyForm from "@/components/replyForm.vue";
 import ReplyItem from "@/components/replyItem.vue";
 import axios from "axios";
+import messagePopup from "@/components/messagePopup.vue";
 export default {
-  components: { ReplyForm, ReplyItem },
+  components: { ReplyForm, ReplyItem, messagePopup },
   data() {
     return {
+      message: "",
       postContent: "",
       postTitle: "",
       replies: [],
@@ -41,13 +44,21 @@ export default {
       this.replies = response.data;
     },
     async addReply(reply) {
-      await axios.post("http://localhost:5153/api/replies", {
-        Id: reply.id,
-        Content: reply.Content,
-        PostId: this.$route.params.id,
-      });
+      this.message = "";
+      await axios
+        .post("http://localhost:5153/api/replies", {
+          Id: reply.id,
+          Content: reply.Content,
+          PostId: this.$route.params.id,
+        })
+        .catch(() => {
+          this.showMessage("The field is required");
+        });
       this.replies.push(reply);
       this.loadReplies();
+    },
+    showMessage(message) {
+      this.message = message;
     },
   },
   mounted() {

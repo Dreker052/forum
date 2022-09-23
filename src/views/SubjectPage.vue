@@ -11,28 +11,36 @@
       />
     </div>
   </div>
+  <message-popup v-if="message != ''">{{ message }}</message-popup>
 </template>
 
 <script>
 import postForm from "@/components/postForm.vue";
 import axios from "axios";
 import PostItem from "@/components/postItem.vue";
+import messagePopup from "@/components/messagePopup.vue";
 export default {
-  components: { postForm, PostItem },
+  components: { postForm, PostItem, messagePopup },
   data() {
     return {
+      message: "",
       posts: [],
     };
   },
 
   methods: {
     async addPost(post) {
-      await axios.post("http://localhost:5153/api/posts", {
-        Id: post.id,
-        Title: post.title,
-        Content: post.body,
-        SubjectTitle: this.$route.params.title,
-      });
+      this.message = "";
+      await axios
+        .post("http://localhost:5153/api/posts", {
+          Id: post.id,
+          Title: post.title,
+          Content: post.body,
+          SubjectTitle: this.$route.params.title,
+        })
+        .catch(() => {
+          this.showMessage("The fields is required");
+        });
       this.posts.push(post);
       this.loadPosts();
     },
@@ -41,6 +49,9 @@ export default {
         `http://localhost:5153/api/posts/${this.$route.params.title}`
       );
       this.posts = response.data;
+    },
+    showMessage(message) {
+      this.message = message;
     },
   },
 

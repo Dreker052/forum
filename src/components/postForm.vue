@@ -1,7 +1,7 @@
 <template>
   <form class="postForm" @submit.prevent>
     <input v-model="post.title" class="input" type="text" placeholder="title" />
-    <my-text-area v-model="post.body" placeholder="body"></my-text-area>
+    <my-text-area v-model="post.body" placeholder="content"></my-text-area>
     <my-button @click="addPost">Add</my-button>
   </form>
 </template>

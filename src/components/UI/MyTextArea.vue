@@ -1,12 +1,5 @@
 <template>
-  <textarea
-    :value="modelValue"
-    @input="updateInput"
-    name=""
-    id=""
-    cols="30"
-    rows="5"
-  ></textarea>
+  <textarea name="" id="" cols="30" rows="5"></textarea>
 </template>
 
 <script>
